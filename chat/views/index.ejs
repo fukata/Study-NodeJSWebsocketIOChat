@@ -17,6 +17,7 @@ $(function(){
 		var s = $('#status').val().trim();
 		if (s) {
 			socket.send(s);
+			$('#status').val('');
 		}
 	});
 });
@@ -34,7 +35,6 @@ $(function(){
 </div>
 
 <div id="statuses">
-	<div class="status"></div>
 </div>
 </body>
 </html>

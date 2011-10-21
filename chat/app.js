@@ -43,7 +43,7 @@ console.log("Express server listening on port %d in %s mode", app.address().port
 
 var socket = io.listen(app)
 socket.on('connection', function(client) {
-	client.broadcast('Connection user.'); // send other clients
+	//client.broadcast('Connection user.'); // send other clients
 	//client.send(''); // sent current client
 
 
@@ -53,6 +53,6 @@ socket.on('connection', function(client) {
 	});
 
 	client.on('disconnect', function() {
-		client.broadcast('Disconnect other user.');
+		//client.broadcast('Disconnect other user.');
 	});
 });
