@@ -4,7 +4,7 @@
  */
 
 var express = require('express');
-var io = require('socket.io');
+var io = require('socket.io'); //for @0.6.17
 
 var app = module.exports = express.createServer();
 
@@ -13,6 +13,9 @@ var app = module.exports = express.createServer();
 app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
+  app.set('view options', {
+    layout: false
+  });
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
@@ -31,24 +34,25 @@ app.configure('production', function(){
 
 app.get('/', function(req, res){
   res.render('index', {
-    title: 'Express'
+    title: 'node.js WebSocket Chat'
   });
 });
 
 app.listen(3000);
+console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+
 var socket = io.listen(app)
 socket.on('connection', function(client) {
-	//client.broadcast(''); // Send other clients
-	//client.send(''); // Sent current client
+	client.broadcast('Connection user.'); // send other clients
+	//client.send(''); // sent current client
 
 
 	client.on('message', function(message) {
 		client.broadcast(message);
+		client.send(message);
 	});
 
 	client.on('disconnect', function() {
 		client.broadcast('Disconnect other user.');
 	});
 });
-
-console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
