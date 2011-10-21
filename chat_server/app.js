@@ -38,14 +38,16 @@ app.get('/', function(req, res){
 app.listen(3000);
 var socket = io.listen(app)
 socket.on('connection', function(client) {
-	client.broadcast(''); // Send other clients
-	client.send(''); // Sent current client
+	//client.broadcast(''); // Send other clients
+	//client.send(''); // Sent current client
 
 
 	client.on('message', function(message) {
+		client.broadcast(message);
 	});
 
 	client.on('disconnect', function() {
+		client.broadcast('Disconnect other user.');
 	});
 });
 
