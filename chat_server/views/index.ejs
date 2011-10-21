@@ -1,2 +1,38 @@
-<h1><%= title %></h1>
-<p>Welcome to <%= title %></p>
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript" src="/javascripts/jquery.js"></script>
+<script type="text/javascript" src="/javascript/socket.io.js"></script>
+<script type="text/javascript">
+$(function(){
+	var socket = new io.Socket('localhost');
+	socket.connect();
+	socket.on('message', function(message) {
+		$('#statuses').prepend($(document.createElement('div')).addClass('status').text(message));
+	});
+
+	$('#go').click(function() {
+		var s = $('#status').val().trim();
+		if (s) {
+			socket.send(s);
+			$('#statuses').prepend($(document.createElement('div')).addClass('status').text(s));
+		}
+	});
+});
+</script>
+</head>
+
+<body>
+<h1>node.js WebSocket Chat</h1>
+
+<div id="status_form">
+	<input type="text" size="50" name="status" id="status"/>
+	<button id="go">送信</button>
+</div>
+
+<div id="statuses">
+	<div class="status"></div>
+</div>
+</body>
+</html>
